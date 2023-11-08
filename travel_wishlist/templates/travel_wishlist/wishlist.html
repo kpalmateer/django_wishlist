@@ -1,0 +1,26 @@
+<h2>Travel Wishlist</h2>
+
+<!-- Forms are used to simplify the mapping of buttons and input fields -->
+<form method="POST" action="{% url 'place_list' %}">
+    {% csrf_token %}
+    {{ new_place_form }}
+    <button type="submit">Add</button>
+</form>
+
+{% for place in places %}
+
+<div>
+    {{ place.name }}
+    <form method="POST" action="{% url 'place_was_visited' place.pk %}"> <!-- Django will automatically add the pk to the url-->
+        {% csrf_token %}
+        <button>Visited</button>
+    </form>
+</div>
+
+{% empty %}
+
+<p>You have no places in your wishlist.</p>
+
+{% endfor %}
+
+<p><a href="{% url 'places_visited' %}">Places You've Been</a></p>
